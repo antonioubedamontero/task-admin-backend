@@ -1,0 +1,20 @@
+{
+  "name": "task-admin-backend",
+  "version": "0.1.0",
+  "description": "Task admin backend application",
+  "main": "app.js",
+  "scripts": {
+    "start:dev": "nodemon app.js",
+    "start": "node app.js"
+  },
+  "keywords": [],
+  "author": "Antonio Úbeda Montero",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
