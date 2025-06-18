@@ -1,4 +1,5 @@
 const TaskState = {
+    CREATED: 'created',
     BACKLOG: 'backlog',
     STARTED: 'started',
     ENDED: 'ended',
