@@ -10,7 +10,19 @@
 			"name": "getTasks",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/api/tasks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"tasks"
+					]
+				}
 			},
 			"response": []
 		},
@@ -18,14 +30,6 @@
 			"name": "getTaskById",
 			"request": {
 				"method": "GET",
-				"header": []
-			},
-			"response": []
-		},
-		{
-			"name": "deleteTaskById",
-			"request": {
-				"method": "DELETE",
 				"header": [],
 				"url": {
 					"raw": "http://localhost:3001/api/tasks/2",
@@ -44,13 +48,34 @@
 			"response": []
 		},
 		{
+			"name": "deleteTaskById",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/api/tasks/80",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"tasks",
+						"80"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "createTask",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": \"80\",\n    \"name\": \"task80\",\n    \"description\": \"Task80 description\",\n    \"startDate\": \"2025-06-20\",\n    \"dueDate\": \"2025-06-21\"\n}",
+					"raw": "{\n    \"name\": \"task80\",\n    \"description\": \"Task80 description\",\n    \"startDate\": \"2025-06-20\",\n    \"dueDate\": \"2025-06-21\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -101,7 +126,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": \"2\",\n    \"name\": \"task number 2\",\n    \"description\": \"Task2 number 2 description\",\n    \"currentState\": \"paused\",\n    \"justification\": \"Waiting for user review\"\n}",
+					"raw": "{\n    \"id\": \"2\",\n    \"name\": \"task number 2\",\n    \"description\": \"Task2 number 2 description\",\n    \"currentState\": \"pause\",\n    \"justification\": \"Waiting for user review\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -119,6 +144,66 @@
 						"api",
 						"tasks",
 						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"user4@gmail.com\",\n    \"password\": \"123456\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/api/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"user4@gmail.com\",\n    \"name\": \"User 4\",\n    \"surname\": \"surname 4\",\n    \"password\": \"123456\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/api/auth/signing",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"auth",
+						"signing"
 					]
 				}
 			},

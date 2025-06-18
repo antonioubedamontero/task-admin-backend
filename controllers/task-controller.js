@@ -1,6 +1,8 @@
 // Task management controllers
 const TaskState = require('../types/states.enum')
 const { changeState, isValidState } = require('../helpers/helper-functions');
+const { v4: uuidv4 } = require('uuid');
+
 
 // TODO: Temporary while including mongo
 let tasks = require('../mocks/tasks');
@@ -33,12 +35,9 @@ const deleteTaskById = (req,res) => {
 }
 
 const createTask = (req, res) => {
-  const { id, name, description, startDate, dueDate } = req.body;
-  const existingTask = tasks.find(task => task.id === id);
+  const { name, description, startDate, dueDate } = req.body;
 
-  if (existingTask) {
-    return res.status(409).json({ message: `Taks ${id} already exists`});
-  }
+  const id = uuidv4();
 
   tasks.push({
     id, 
