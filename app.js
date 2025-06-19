@@ -3,7 +3,7 @@ require('dotenv').config(); // Load vars from .env
 
 const app = express();
 const taskRoutes = require('./routes/task-controller-routes');
-const authRoutes = require('./routes/auth-controller-routes');
+const userRoutes = require('./routes/user-controller-routes');
 const connectMongoDb = require('./db/mongodb-connection');
 
 const PORT = process.env.PORT || 3000;
@@ -16,7 +16,7 @@ app.use(express.json());  // for parsing application/json
 
 // Task Management routes
 app.use('/api/tasks', taskRoutes);
-app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
 
 // Listen on port
 app.listen(PORT, (err) => {

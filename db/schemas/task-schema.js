@@ -1,4 +1,3 @@
-
 const mongoose = require('mongoose');
 const TaskState = require('../../types/states.enum');
 
