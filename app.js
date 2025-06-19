@@ -1,10 +1,15 @@
 const express = require('express');
+require('dotenv').config(); // Load vars from .env
+
 const app = express();
 const taskRoutes = require('./routes/task-controller-routes');
 const authRoutes = require('./routes/auth-controller-routes');
+const connectMongoDb = require('./db/mongodb-connection');
 
-// TODO: Include in .env
-const port = 3001;
+const PORT = process.env.PORT || 3000;
+
+// Connect to mongodb database
+connectMongoDb();
 
 // Middlewares
 app.use(express.json());  // for parsing application/json
@@ -14,10 +19,11 @@ app.use('/api/tasks', taskRoutes);
 app.use('/api/auth', authRoutes);
 
 // Listen on port
-app.listen(port, (err) => {
+app.listen(PORT, (err) => {
   if (err) {
-    return console.error('Error starting server: ', err);
+
+    return console.error('🔴 Error starting server: ', err);
   }
 
-  console.info(`Task admin backend up and running on port ${port}`);
+  console.info(`🟢 Task admin backend up and running on port ${PORT}`);
 });

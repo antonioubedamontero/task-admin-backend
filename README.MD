@@ -2,6 +2,10 @@
 
 Task admin backend made with node and express.
 
+## Pre requisites
+
+copy .env-template to .env and fill user and password database.
+
 ## Install dependencies
 
 ```bash

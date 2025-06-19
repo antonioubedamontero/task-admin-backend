@@ -10,7 +10,6 @@ const logStatesMock = [
 ];
 
 const task1Mock = {
-    id: '1',
     name: 'task1',
     description: 'Task1 description',
     startDate: '2025-06-17',
@@ -21,7 +20,6 @@ const task1Mock = {
 };
 
 const task2Mock = {
-    id: '2',
     name: 'task2',
     description: 'Task2 description',
     startDate: '2025-06-18',
@@ -32,7 +30,6 @@ const task2Mock = {
 };
 
 const task3Mock = {
-    id: '3',
     name: 'task3',
     description: 'Task3 description',
     startDate: '2025-06-19',
@@ -43,7 +40,6 @@ const task3Mock = {
 };
 
 const task4Mock = {
-    id: '4',
     name: 'task4',
     description: 'Task4 description',
     startDate: '2025-06-20',
@@ -54,7 +50,6 @@ const task4Mock = {
 };
 
 const task5Mock = {
-    id: '5',
     name: 'task5',
     description: 'Task5 description',
     startDate: '2025-06-21',
@@ -65,7 +60,6 @@ const task5Mock = {
 };
 
 const task6Mock = {
-    id: '6',
     name: 'task6',
     description: 'Task6 description',
     startDate: '2025-06-22',
@@ -76,7 +70,6 @@ const task6Mock = {
 };
 
 const task7Mock = {
-    id: '7',
     name: 'task7',
     description: 'Task7 description',
     startDate: '2025-06-23',
