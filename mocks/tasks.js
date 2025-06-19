@@ -16,6 +16,7 @@ const task1Mock = {
     startDate: '2025-06-17',
     dueDate: '2025-06-18',
     currentState: TaskState.BACKLOG,
+    userId: '1',
     logStates: [...logStatesMock]
 };
 
@@ -26,6 +27,7 @@ const task2Mock = {
     startDate: '2025-06-18',
     dueDate: '2025-06-25',
     currentState: TaskState.STARTED,
+    userId: '2',
     logStates: [...logStatesMock]
 };
 
@@ -36,6 +38,7 @@ const task3Mock = {
     startDate: '2025-06-19',
     dueDate: '2025-06-20',
     currentState: TaskState.STARTED,
+    userId: '2',
     logStates: [...logStatesMock]
 };
 
@@ -46,6 +49,7 @@ const task4Mock = {
     startDate: '2025-06-20',
     dueDate: '2025-06-21',
     currentState: TaskState.PAUSED,
+    userId: '3',
     logStates: [...logStatesMock]
 };
 
@@ -56,6 +60,7 @@ const task5Mock = {
     startDate: '2025-06-21',
     dueDate: '2025-06-22',
     currentState: TaskState.ENDED,
+    userId: '4',
     logStates: [...logStatesMock]
 };
 
@@ -66,6 +71,7 @@ const task6Mock = {
     startDate: '2025-06-22',
     dueDate: '2025-06-23',
     currentState: TaskState.ENDED,
+    userId: '5',
     logStates: [...logStatesMock]
 };
 
@@ -76,6 +82,7 @@ const task7Mock = {
     startDate: '2025-06-23',
     dueDate: '2025-06-24',
     currentState: TaskState.CANCELED,
+    userId: '6',
     logStates: [...logStatesMock]
 };
 

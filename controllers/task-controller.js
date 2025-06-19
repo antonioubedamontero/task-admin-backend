@@ -46,6 +46,7 @@ const createTask = (req, res) => {
     startDate, 
     dueDate,
     state: TaskState.CREATED,
+    userId: 'mock',
     logStates: [
       {
         startDate: new Date().toLocaleString(),
