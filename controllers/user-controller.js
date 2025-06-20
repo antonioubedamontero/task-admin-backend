@@ -1,12 +1,14 @@
 const User = require('../db/schemas/user-schema');
- 
+const { codePassword, isValidPassword } = require('../helpers/password-encription');
+
 const getUser = async(req,res) => {
     const { email, password } = req.body;
 
     try {
       const userFound = await User.findOne({ email });
+      const isPasswordOk = isValidPassword(password,userFound.password);
 
-      if (!userFound || userFound.password !== password) {
+      if (!userFound || !isPasswordOk) {
         return res.status(401).json(
           { message: 'User not authorized'}
         );
@@ -52,6 +54,7 @@ const createUser = async(req,res) => {
       }
 
       const user = new User({ email, password, name, surname });
+      user.password = codePassword(password);
       await user.save();
 
       const { password:passwd, __v, ...userData } = user.toJSON();
