@@ -1,5 +1,6 @@
 const User = require('../db/schemas/user-schema');
 const { codePassword, isValidPassword } = require('../helpers/password-encription');
+const { generateToken } = require('../helpers/json-webtokens');
 
 const getUser = async(req,res) => {
     const { email, password } = req.body;
@@ -16,12 +17,12 @@ const getUser = async(req,res) => {
 
       const { password:passwd, __v ,...userData } = userFound.toJSON();
 
-      // TODO: Include sending token to user and renew token endpoint
+      // Generate a new token to keep session alive
       res.status(200).json({
         user: {
           ...userData
         },
-        token: 'mock token'
+        token: generateToken(userFound._id)
       });
       
     } catch (error) {
@@ -55,12 +56,14 @@ const createUser = async(req,res) => {
 
       const user = new User({ email, password, name, surname });
       user.password = codePassword(password);
-      await user.save();
 
       const { password:passwd, __v, ...userData } = user.toJSON();
 
       return res.status(201).json({
-        ...userData
+        user: {
+          ...userData
+        },
+        token: generateToken(user._id) 
       });
 
     } catch (error) {
