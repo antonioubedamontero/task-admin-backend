@@ -59,8 +59,9 @@ const TaskSchema = new mongoose.Schema({
 });
 
 // Indexes
-TaskSchema.index({ currentState: 1, userId: 1 });
 TaskSchema.index({ userId: 1 });
+TaskSchema.index({ userId: 1, name: 1 }, { unique: true });
+TaskSchema.index({ userId: 1, currentState: 1 });
 
 // Model
 const Task = mongoose.model('Task', TaskSchema);

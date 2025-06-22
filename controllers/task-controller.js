@@ -1,27 +1,68 @@
 // Task management controllers
+const mongoose = require('mongoose');
+
 const TaskState = require('../types/states.enum')
+const { generateToken } = require('../helpers/json-webtokens');
 const { changeState, isValidState } = require('../helpers/helper-functions');
-const { v4: uuidv4 } = require('uuid');
+const { Task } = require('../db/schemas/task-schema');
 
+const getTasks = async(req,res) => {
+  try {
+    const { id } = req;
+    const userIdAsObject = new mongoose.Types.ObjectId(id);
+    const tasks = await Task.find({ userId: userIdAsObject });
 
-// TODO: Temporary while including mongo
-let tasks = require('../mocks/tasks');
+    const mappedTasks = tasks.map(task => {
+      const { userId, __v, token, ...data } = task.toJSON();
+      return data;
+    });
 
-const getTasks = (req,res) => {
-  res.status(200).json([...tasks]);
-};
+    if (!mappedTasks || mappedTasks.length === 0) {
+      return res.status(404).json(
+        { message: 'No tasks found by user'}
+      );
+    }
 
-const getTaskById = (req,res) => {
-  const { id } = req.params;
-  const taskById = tasks.find(task => task.id === id);
-  
-  if (taskById) {
-    return res.status(200).json(taskById)
+    // Renew session token
+    res.status(200).json({
+      tasks: [...mappedTasks],
+      token: generateToken(id) 
+    });
+    
+  } catch (error) {
+    console.error('🔴 Error getting tasks:', error);
+    return res.status(500).json(
+      { message: 'Internal server error' }
+    );    
   }
-
-  res.status(404).json({ message: `Task ${id} not found`});
 };
 
+const getTaskById = async (req,res) => {
+  try {
+    const { id } = req.params; 
+    const task = await Task.findById(id);
+
+    if (!task) {
+      return res.status(404).json({ message: 'No task found'});
+    }
+
+    const { userId, __v, ...data  } = task.toJSON();
+
+    // Renew session token
+    res.status(200).json({
+      task: data,
+      token: generateToken(req.id) 
+    });
+    
+  } catch (error) {
+    console.error('🔴 Error getting task:', error);
+    return res.status(500).json(
+        { message: 'Internal server error' }
+    );    
+  }
+};
+
+/*
 const deleteTaskById = (req,res) => {
   const { id } = req.params;
   const taskById = tasks.find(task => task.id === id);
@@ -33,33 +74,58 @@ const deleteTaskById = (req,res) => {
 
   res.status(404).json({ message: `Task ${id} not found`});
 }
+*/
 
-const createTask = (req, res) => {
+const createTask = async(req, res) => {
   const { name, description, startDate, dueDate } = req.body;
+  const { id } = req;
 
-  const id = uuidv4();
+  const userIdAsObject = new mongoose.Types.ObjectId(id);
 
-  tasks.push({
-    id, 
-    name, 
-    description, 
-    startDate, 
-    dueDate,
-    state: TaskState.CREATED,
-    userId: 'mock',
-    logStates: [
-      {
-        startDate: new Date().toLocaleString(),
-        state: TaskState.CREATED,
-        endDate: null,
-        justification: ''
+  try {
+    const taskFound = await Task.findOne(
+      { name, userId: userIdAsObject }
+    );
+
+    if (taskFound) {
+      return res.status(409).json(
+        { message: 'task already exists for current user' }
+      );
+    }
+
+    const task = new Task({ name, description, startDate, dueDate });
+
+    task.startDate = new Date(startDate)?.toJSON();
+    task.dueDate = new Date(dueDate)?.toJSON();
+    task.userId = userIdAsObject;
+    task.currentState = TaskState.BACKLOG;
+    task.logStates = [
+      { 
+        startDate: new Date().toJSON(),
+        state: TaskState.BACKLOG,
+        endDate: null          
       }
     ]
-  });
 
-  res.status(201).json({ message: `Task ${id} created`});
+    await task.save();
+
+    const { __v, userId, ...data } = task.toJSON();
+
+    // Renew session token
+    res.status(201).json({
+      data,
+      token: generateToken(id)
+    });
+
+  } catch (error) {
+     console.error('🔴 Error saving user:', error);
+     return res.status(500).json(
+        { message: 'Internal server error' }
+     );
+  }
 };
 
+/*
 // FIX: Name and status is not being modified
 const updateTaskById = (req,res) => {
   const { id } = req.params; 
@@ -95,7 +161,9 @@ const updateTaskById = (req,res) => {
     data: taskById
   })
 };
+*/
 
+/*
 const getTasksByState = (req,res) => {
   const { id } = req.params;
   const tasksByState = tasks.filter(task => task.currentState === id);
@@ -106,12 +174,13 @@ const getTasksByState = (req,res) => {
 
   res.status(200).json(tasksByState);
 }
+*/
 
 module.exports = {
     getTasks,
     getTaskById,
-    deleteTaskById,
+    // deleteTaskById,
     createTask,
-    updateTaskById,
-    getTasksByState
+    // updateTaskById,
+    // getTasksByState
 }

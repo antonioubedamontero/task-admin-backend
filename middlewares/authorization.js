@@ -2,8 +2,8 @@ const { getDecodedToken } = require('../helpers/json-webtokens');
 
 const validateAuthorization = (req, res, next) => {
     // Authorization: Bearer XXXXXXX
-    const { Authorization } = req.headers;
-    const token = Authorization?.slice(7);
+    const { authorization } = req.headers;
+    const token = authorization?.slice(7);
 
     try {
       const id = getDecodedToken(token)?.payload || null;

@@ -7,9 +7,16 @@ const getUser = async(req,res) => {
 
     try {
       const userFound = await User.findOne({ email });
-      const isPasswordOk = isValidPassword(password,userFound.password);
 
-      if (!userFound || !isPasswordOk) {
+      if(!userFound) {
+        return res.status(401).json(
+          { message: 'User not authorized'}
+        );
+      }
+
+      const isPasswordOk = isValidPassword(password, userFound.password);
+
+      if (!isPasswordOk) {
         return res.status(401).json(
           { message: 'User not authorized'}
         );
@@ -31,15 +38,6 @@ const getUser = async(req,res) => {
         { message: 'Internal server error' }
       );      
     }
-
-    const userFound = usersMock.find(user => user.email === email && user.password === password);
-
-    if (!userFound) {
-      return res.status(404).json({ message: 'User not found'});
-    }
-
-    const { password: passwdFnd, __v, ...rest } = userFound.toJSON(); 
-    res.status(200).json({ ...rest });
 };
 
 const createUser = async(req,res) => {
@@ -58,6 +56,8 @@ const createUser = async(req,res) => {
       user.password = codePassword(password);
 
       const { password:passwd, __v, ...userData } = user.toJSON();
+
+      await user.save();
 
       return res.status(201).json({
         user: {
