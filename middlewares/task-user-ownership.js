@@ -10,7 +10,7 @@ const validateTaskUserOwnerShipByTaskId = async(req, res, next) => {
 
       if (!taskFound) {
         return res.status(404).send(
-          { message: 'task not found' }
+          { message: `task ${id} is not found` }
         );
       }
 
@@ -19,7 +19,7 @@ const validateTaskUserOwnerShipByTaskId = async(req, res, next) => {
 
       if (!userId.equals(reqIdAsObject)) {
         return res.status(403).send(
-          { message: 'resource is not property of user' }
+          { message: `Task ${id} is not property of user`}
         );
       }
       

@@ -10,7 +10,7 @@ const getUser = async(req,res) => {
 
       if(!userFound) {
         return res.status(401).json(
-          { message: 'User not authorized'}
+          { message: `User ${email} is not authorized`}
         );
       }
 
@@ -18,7 +18,7 @@ const getUser = async(req,res) => {
 
       if (!isPasswordOk) {
         return res.status(401).json(
-          { message: 'User not authorized'}
+          { message: `User ${email} is not authorized`}
         );
       }
 
@@ -48,7 +48,7 @@ const createUser = async(req,res) => {
 
       if (userFound) {
         return res.status(409).json(
-          { message: 'User already exists'}
+          { message: `User ${email} already exists`}
         );
       }
 

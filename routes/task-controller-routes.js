@@ -11,7 +11,7 @@ const {
   getTaskById,
   createTask,
   deleteTaskById,
-  //updateTaskById,
+  updateTaskById,
   getTasksByState
 } = require('../controllers/task-controller');
 
@@ -21,7 +21,7 @@ router.get('/', validateAuthorization, getTasks);
 router.get('/:id', [validateAuthorization, validateTaskUserOwnerShipByTaskId] ,getTaskById);
 router.delete('/:id', [validateAuthorization, validateTaskUserOwnerShipByTaskId], deleteTaskById);
 router.post('/', [validateAuthorization], createTask);
-//router.patch('/:id', [validateAuthorization, validateTaskUserOwnerShipByTaskId], updateTaskById);
+router.patch('/:id', [validateAuthorization, validateTaskUserOwnerShipByTaskId], updateTaskById);
 router.get('/state/:id', validateAuthorization, getTasksByState);
 
 module.exports = router;

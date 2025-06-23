@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 
 const TaskState = require('../types/states.enum')
 const { generateToken } = require('../helpers/json-webtokens');
-const { changeState, isValidState } = require('../helpers/helper-functions');
 const { Task } = require('../db/schemas/task-schema');
 
 const getTasks = async(req,res) => {
@@ -19,7 +18,7 @@ const getTasks = async(req,res) => {
 
     if (!mappedTasks || mappedTasks.length === 0) {
       return res.status(404).json(
-        { message: 'No tasks found by user'}
+        { message: 'No tasks found by provide user'}
       );
     }
 
@@ -43,7 +42,9 @@ const getTaskById = async (req,res) => {
     const task = await Task.findById(id);
 
     if (!task) {
-      return res.status(404).json({ message: 'No task found'});
+      return res.status(404).json(
+        { message: `No task found with id ${id}`}
+      );
     }
 
     const { userId, __v, ...data  } = task.toJSON();
@@ -69,7 +70,7 @@ const deleteTaskById = async(req,res) => {
     await Task.findByIdAndDelete(id);
 
     res.status(200).json({
-      message: `Task deleted successfully`,
+      message: `Task ${id} deleted successfully`,
       token: generateToken(req.id)
     });
     
@@ -94,7 +95,7 @@ const createTask = async(req, res) => {
 
     if (taskFound) {
       return res.status(409).json(
-        { message: 'task already exists for current user' }
+        { message: `task with name ${name} already exists for current user` }
       );
     }
 
@@ -130,43 +131,71 @@ const createTask = async(req, res) => {
   }
 };
 
-/*
-// FIX: Name and status is not being modified
-const updateTaskById = (req,res) => {
+
+const updateTaskById = async(req,res) => {
   const { id } = req.params; 
   const { name, description, currentState, justification } = req.body;
 
-  if (!id) {
-    return res.status(404).json({ message: `Task ${id} not exists`});
+  try {
+    const taskFound = await Task.findById(id);
+
+    if (!taskFound) {
+      return res.status(404).json(
+        { message: `Task ${id} not exists`}
+      );
+    }
+
+    if (currentState === taskFound.currentState) {
+      // Only changes name and/or description
+      if (!name && !description) {
+        return res.status(400).json(
+          { message: 'status is not changed and missing name or description' }
+        )    
+      }
+
+      taskFound.name = name ? name : taskFound.name;
+      taskFound.description = description ? description : taskFound.description;
+
+      await taskFound.save();
+
+      return res.status(200).json({
+        task: taskFound.toJSON(),
+        token: generateToken(req.id)
+      });
+    }
+    
+    if (!justification) {
+      return res.status(400).json(
+        { message: 'justification is required when changing state' }
+      ); 
+    }
+
+    // Finish previous task date log state and add new log state
+    const lastLogStatePosition = taskFound.logStates.length - 1;
+    taskFound.logStates[lastLogStatePosition].endDate = new Date().toJSON();
+    taskFound.logStates.push(
+      {
+        startDate: new Date().toJSON(),
+        state: currentState,
+        endDate: null,
+        justification
+      }
+    );
+
+    await taskFound.save();
+
+    res.status(200).json({
+        task: taskFound.toJSON(),
+        token: generateToken(req.id)
+    });
+
+  } catch (error) {
+    console.error('🔴 Error updating task:', error);
+    return res.status(500).json(
+      { message: 'Internal server error' }
+    );   
   }
-
-  let taskById = tasks.find(task => task.id === id);
-
-  if (!taskById) {
-    return res.status(404).json({ message: `Task ${id} not exists`});
-  }
-
-  if (!isValidState(currentState)) {
-    return res.status(400).json({ message: 'state is not valid' });
-  }
-
-  const logStates = taskById.logStates;
-  changeState(logStates, currentState, justification);
-
-  taskById = {
-    ...taskById,
-    name,
-    description,
-    currentState,
-    logStates
-  }
-
-  return res.status(200).json({
-    message: `Task ${id} updated`,
-    data: taskById
-  })
 };
-*/
 
 const getTasksByState = async(req,res) => {
   try {
@@ -183,7 +212,7 @@ const getTasksByState = async(req,res) => {
 
     if (!mappedTasks || mappedTasks.length === 0) {
       return res.status(404).json(
-        { message: 'No tasks found by user and state'}
+        { message: `No tasks found for user with state ${state}`}
       );
     }
 
@@ -206,6 +235,6 @@ module.exports = {
     getTaskById,
     deleteTaskById,
     createTask,
-    // updateTaskById,
+    updateTaskById,
     getTasksByState
 }
