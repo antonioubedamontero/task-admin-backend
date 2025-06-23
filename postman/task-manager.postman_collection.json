@@ -7,207 +7,254 @@
 	},
 	"item": [
 		{
-			"name": "getTasks",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:3001/api/tasks",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3001",
-					"path": [
-						"api",
-						"tasks"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "getTaskById",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:3001/api/tasks/2",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3001",
-					"path": [
-						"api",
-						"tasks",
-						"2"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "deleteTaskById",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:3001/api/tasks/80",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3001",
-					"path": [
-						"api",
-						"tasks",
-						"80"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "createTask",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"task80\",\n    \"description\": \"Task80 description\",\n    \"startDate\": \"2025-06-20\",\n    \"dueDate\": \"2025-06-21\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "user-endpoints",
+			"item": [
+				{
+					"name": "getUser",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user1@gmail.com\",\n    \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:3001/api/tasks",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3001",
-					"path": [
-						"api",
-						"tasks"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "getTaskByState",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:3001/api/tasks/state/ended",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3001",
-					"path": [
-						"api",
-						"tasks",
-						"state",
-						"ended"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "updateTaskById",
-			"request": {
-				"method": "PATCH",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"id\": \"2\",\n    \"name\": \"task number 2\",\n    \"description\": \"Task2 number 2 description\",\n    \"currentState\": \"pause\",\n    \"justification\": \"Waiting for user review\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "createUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user1@gmail.com\",\n    \"name\": \"User 1\",\n    \"surname\": \"surname 1\",\n    \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/users/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users",
+								"register"
+							]
 						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:3001/api/tasks/2",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3001",
-					"path": [
-						"api",
-						"tasks",
-						"2"
-					]
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "getUser",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"email\": \"user4@gmail.com\",\n    \"password\": \"123456\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "task-endpoints",
+			"item": [
+				{
+					"name": "getTasks",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiNjg1OTI4MjQyYjY1MmZmNTA3MjVmNWUwIiwiaWF0IjoxNzUwNjczNTE2LCJleHAiOjE3NTA2NzcxMTZ9.ujfUELTnZgR7LXNMvN_xv55W9eQYzKvfCw1U7gnf6aQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/tasks",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"tasks"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:3001/api/auth/login",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3001",
-					"path": [
-						"api",
-						"auth",
-						"login"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "createUser",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"email\": \"user4@gmail.com\",\n    \"name\": \"User 4\",\n    \"surname\": \"surname 4\",\n    \"password\": \"123456\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "getTaskById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiNjg1OTI4MjQyYjY1MmZmNTA3MjVmNWUwIiwiaWF0IjoxNzUwNjczNTE2LCJleHAiOjE3NTA2NzcxMTZ9.ujfUELTnZgR7LXNMvN_xv55W9eQYzKvfCw1U7gnf6aQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/tasks/68592a602b652ff50725f5fc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"tasks",
+								"68592a602b652ff50725f5fc"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:3001/api/auth/signing",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3001",
-					"path": [
-						"api",
-						"auth",
-						"signing"
-					]
+				{
+					"name": "deleteTaskById",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiNjg1OTI4MjQyYjY1MmZmNTA3MjVmNWUwIiwiaWF0IjoxNzUwNjczNTE2LCJleHAiOjE3NTA2NzcxMTZ9.ujfUELTnZgR7LXNMvN_xv55W9eQYzKvfCw1U7gnf6aQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/tasks/68592a602b652ff50725f5fc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"tasks",
+								"68592a602b652ff50725f5fc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createTask",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiNjg1OTI4MjQyYjY1MmZmNTA3MjVmNWUwIiwiaWF0IjoxNzUwNjczNTE2LCJleHAiOjE3NTA2NzcxMTZ9.ujfUELTnZgR7LXNMvN_xv55W9eQYzKvfCw1U7gnf6aQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"task2\",\n    \"description\": \"Task2 description\",\n    \"startDate\": \"2025-06-24\",\n    \"dueDate\": \"2025-06-29\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/tasks",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getTaskByState",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/tasks/state/ended",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"tasks",
+								"state",
+								"ended"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateTaskById",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiNjg1OTI4MjQyYjY1MmZmNTA3MjVmNWUwIiwiaWF0IjoxNzUwNjczNTE2LCJleHAiOjE3NTA2NzcxMTZ9.ujfUELTnZgR7LXNMvN_xv55W9eQYzKvfCw1U7gnf6aQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"currentState\": \"paused\",\n    \"justification\": \"waiting for user response\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/tasks/68592d8b42888e3bffc1197a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"tasks",
+								"68592d8b42888e3bffc1197a"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		}
 	]
 }

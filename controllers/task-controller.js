@@ -146,6 +146,8 @@ const updateTaskById = async(req,res) => {
       );
     }
 
+    // TODO: No need to send state if only changes name and/or description
+    // TODO: Validate that states are valid
     if (currentState === taskFound.currentState) {
       // Only changes name and/or description
       if (!name && !description) {
@@ -170,6 +172,8 @@ const updateTaskById = async(req,res) => {
         { message: 'justification is required when changing state' }
       ); 
     }
+
+    taskFound.currentState = currentState;
 
     // Finish previous task date log state and add new log state
     const lastLogStatePosition = taskFound.logStates.length - 1;
