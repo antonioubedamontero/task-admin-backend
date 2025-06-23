@@ -12,6 +12,7 @@ const getTasks = async(req,res) => {
     const tasks = await Task.find({ userId: userIdAsObject });
 
     const mappedTasks = tasks.map(task => {
+      /* eslint-disable no-unused-vars */
       const { userId, __v, token, ...data } = task.toJSON();
       return data;
     });

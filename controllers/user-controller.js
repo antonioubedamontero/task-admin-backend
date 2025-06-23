@@ -22,6 +22,7 @@ const getUser = async(req,res) => {
         );
       }
 
+      /* eslint-disable no-unused-vars */
       const { password:passwd, __v ,...userData } = userFound.toJSON();
 
       // Generate a new token to keep session alive

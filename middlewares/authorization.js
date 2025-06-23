@@ -17,7 +17,8 @@ const validateAuthorization = (req, res, next) => {
       req.id = id;
       next();
 
-    } catch (error) {
+    } catch(error) {
+      console.error('🔴 Error validating credentials:', error);
       return res.status(403).send(
         { message: 'wrong credentials' }
       );     
