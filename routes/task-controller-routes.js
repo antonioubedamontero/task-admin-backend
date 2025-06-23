@@ -10,20 +10,18 @@ const {
   getTasks, 
   getTaskById,
   createTask,
-  //deleteTaskById,
+  deleteTaskById,
   //updateTaskById,
-  //getTasksByState
+  getTasksByState
 } = require('../controllers/task-controller');
 
 // TODO: This endpoint should be protected (admin only)
 router.get('/', validateAuthorization, getTasks);
 
 router.get('/:id', [validateAuthorization, validateTaskUserOwnerShipByTaskId] ,getTaskById);
-//router.delete('/:id', [validateAuthorization, validateTaskUserOwnerShipByTaskId], deleteTaskById);
+router.delete('/:id', [validateAuthorization, validateTaskUserOwnerShipByTaskId], deleteTaskById);
 router.post('/', [validateAuthorization], createTask);
 //router.patch('/:id', [validateAuthorization, validateTaskUserOwnerShipByTaskId], updateTaskById);
-
-// TODO: This endpoint should have a different middleware
-//router.get('/state/:id', getTasksByState);
+router.get('/state/:id', validateAuthorization, getTasksByState);
 
 module.exports = router;

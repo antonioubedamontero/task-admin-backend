@@ -62,19 +62,24 @@ const getTaskById = async (req,res) => {
   }
 };
 
-/*
-const deleteTaskById = (req,res) => {
+const deleteTaskById = async(req,res) => {
   const { id } = req.params;
-  const taskById = tasks.find(task => task.id === id);
 
-  if (taskById) {
-    tasks = tasks.filter( task => task.id !== id);
-    return res.status(200).json({ message: `Task ${id} deleted` });   
+  try {
+    await Task.findByIdAndDelete(id);
+
+    res.status(200).json({
+      message: `Task deleted successfully`,
+      token: generateToken(req.id)
+    });
+    
+  } catch (error) {
+    console.error('🔴 Error deleting task:', error);
+    return res.status(500).json(
+      { message: 'Internal server error' }
+    );
   }
-
-  res.status(404).json({ message: `Task ${id} not found`});
 }
-*/
 
 const createTask = async(req, res) => {
   const { name, description, startDate, dueDate } = req.body;
@@ -163,24 +168,44 @@ const updateTaskById = (req,res) => {
 };
 */
 
-/*
-const getTasksByState = (req,res) => {
-  const { id } = req.params;
-  const tasksByState = tasks.filter(task => task.currentState === id);
+const getTasksByState = async(req,res) => {
+  try {
+    const { id } = req;
+    const { id:state } = req.params;
 
-  if (!tasksByState || tasksByState.length === 0) {
-    return res.status(404).json({ message: `Task ${id} not exists`});
+    const userIdAsObject = new mongoose.Types.ObjectId(id);
+    const tasks = await Task.find({ userId: userIdAsObject, currentState: state });
+
+    const mappedTasks = tasks.map(task => {
+      const { userId, __v, token, ...data } = task.toJSON();
+      return data;
+    });
+
+    if (!mappedTasks || mappedTasks.length === 0) {
+      return res.status(404).json(
+        { message: 'No tasks found by user and state'}
+      );
+    }
+
+    // Renew session token
+    res.status(200).json({
+      tasks: [...mappedTasks],
+      token: generateToken(id) 
+    });
+    
+  } catch (error) {
+    console.error('🔴 Error getting tasks by state:', error);
+    return res.status(500).json(
+      { message: 'Internal server error' }
+    );    
   }
-
-  res.status(200).json(tasksByState);
 }
-*/
 
 module.exports = {
     getTasks,
     getTaskById,
-    // deleteTaskById,
+    deleteTaskById,
     createTask,
     // updateTaskById,
-    // getTasksByState
+    getTasksByState
 }
