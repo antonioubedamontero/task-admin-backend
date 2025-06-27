@@ -1,9 +1,14 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router({ mergeParams: true });
 
-const { getUser, createUser } = require('../controllers/user-controller');
+const {
+  userAvailability,
+  getUser,
+  createUser,
+} = require("../controllers/user-controller");
 
-router.post('/login', getUser);
-router.post('/register', createUser);
+router.post("/login", getUser);
+router.get("/:email/taken", userAvailability);
+router.post("/register", createUser);
 
 module.exports = router;

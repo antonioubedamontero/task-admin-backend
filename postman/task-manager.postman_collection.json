@@ -75,6 +75,28 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "userAvailable",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/users/user1@gmail.com/taken",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users",
+								"user1@gmail.com",
+								"taken"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
