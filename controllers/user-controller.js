@@ -31,10 +31,10 @@ const userAvailability = async (req, res) => {
     const userFound = await User.findOne({ email });
 
     if (!userFound) {
-      return res.status(200).json({ isAvaileble: true });
+      return res.status(200).json({ isAvailable: true });
     }
 
-    res.status(200).json({ isAvaileble: false });
+    res.status(200).json({ isAvailable: false });
   } catch (error) {
     console.error("🔴 Error getting user availability:", error);
     return res.status(500).json({ message: "Internal server error" });
