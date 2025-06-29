@@ -1,9 +1,28 @@
+require("dotenv").config(); // Load vars from .env
 const User = require("../db/schemas/user-schema");
+const { generateToken } = require("../helpers/json-webtokens");
+const jwt = require("jsonwebtoken");
+
 const {
   codePassword,
   isValidPassword,
 } = require("../helpers/password-encription");
-const { generateToken } = require("../helpers/json-webtokens");
+
+const validateToken = async (req, res) => {
+  try {
+    const { token } = req.body;
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (!decodedToken) {
+      return res.status(200).json({ isValidToken: false });
+    }
+
+    res.status(200).json({ isValidToken: true });
+  } catch (error) {
+    console.error("🔴 Error validating token:", error);
+    return res.status(200).json({ isValidToken: false });
+  }
+};
 
 const userAvailability = async (req, res) => {
   const { email } = req.params;
@@ -12,10 +31,10 @@ const userAvailability = async (req, res) => {
     const userFound = await User.findOne({ email });
 
     if (!userFound) {
-      return res.status(200).json({ message: "User is available" });
+      return res.status(200).json({ isAvaileble: true });
     }
 
-    res.status(400).json({ message: "User is not available" });
+    res.status(200).json({ isAvaileble: false });
   } catch (error) {
     console.error("🔴 Error getting user availability:", error);
     return res.status(500).json({ message: "Internal server error" });
@@ -91,4 +110,5 @@ module.exports = {
   getUser,
   createUser,
   userAvailability,
+  validateToken,
 };
