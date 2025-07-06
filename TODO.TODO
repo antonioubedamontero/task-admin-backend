@@ -1,3 +1,0 @@
-- FIX: Review all query params for not to be generic :id.
-- Extract common logic to functions;
-- Review pending todos in code.

@@ -1,27 +1,57 @@
 // Specific routes for task management
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
 // Middleware
-const validateAuthorization = require('../middlewares/authorization');
-const { validateTaskUserOwnerShipByTaskId } = require('../middlewares/task-user-ownership');
+const validateAuthorization = require("../middlewares/authorization");
+const {
+  validateTaskUserOwnerShipByTaskId,
+} = require("../middlewares/task-user-ownership");
+const { validateTaskState } = require("../middlewares/valid-task-state");
+const {
+  createTaskRequiredFields,
+  patchRequiredFields,
+} = require("../middlewares/task-require-fields");
 
-const { 
-  getTasks, 
+const {
+  getTasks,
   getTaskById,
   createTask,
   deleteTaskById,
   updateTaskById,
+  getTasksByState,
+} = require("../controllers/task-controller");
+
+router.get("/", [validateAuthorization], getTasks);
+
+router.get(
+  "/:taskId",
+  [validateAuthorization, validateTaskUserOwnerShipByTaskId],
+  getTaskById
+);
+
+router.delete(
+  "/:taskId",
+  [validateAuthorization, validateTaskUserOwnerShipByTaskId],
+  deleteTaskById
+);
+
+router.post("/", [validateAuthorization, createTaskRequiredFields], createTask);
+
+router.patch(
+  "/",
+  [
+    validateAuthorization,
+    validateTaskUserOwnerShipByTaskId,
+    patchRequiredFields,
+  ],
+  updateTaskById
+);
+
+router.get(
+  "/state/:state",
+  [validateAuthorization, validateTaskState],
   getTasksByState
-} = require('../controllers/task-controller');
-
-// TODO: This endpoint should be protected (admin only)
-router.get('/', validateAuthorization, getTasks);
-
-router.get('/:id', [validateAuthorization, validateTaskUserOwnerShipByTaskId] ,getTaskById);
-router.delete('/:id', [validateAuthorization, validateTaskUserOwnerShipByTaskId], deleteTaskById);
-router.post('/', [validateAuthorization], createTask);
-router.patch('/:id', [validateAuthorization, validateTaskUserOwnerShipByTaskId], updateTaskById);
-router.get('/state/:id', validateAuthorization, getTasksByState);
+);
 
 module.exports = router;

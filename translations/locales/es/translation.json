@@ -1,26 +1,49 @@
 {
+  "notFoundErrors": {
+    "taskNotFound": "La tarea {{taskId}} no existe",
+    "tasksNotFound": "No existen tareas para el usuario",
+    "tasksNotFoundByState": "No existen tareas para el usuario con estado {{state}}"
+  },
   "requiredFieldsErrors": {
     "emailTaken": "El usuario con el correo electrónico {{email}} ya existe",
     "loginFieldsRequired": "El email y la contraseña son obligatorios",
     "validateTokenRequiredFields": "El token es obligatorio",
     "userAvailabilityRequiredFields": "El email es obligatorio",
-    "registerRequiredFields": "Los campos email, password, name and surname son obligatorios"
+    "registerRequiredFields": "Los campos email, password, name and surname son obligatorios",
+    "createTaskRequireFields": "El nombre y la descripción son requeridos",
+    "datesModifiableIfStarted": "Sólo puede modificar las fechas en tareas iniciadas",
+    "justificationRequired": "El campo justificación es obligatorio",
+    "datesModificationRequired": "Debe informar las fechas",
+    "startDateGreaterThanEndDate": "La fecha desde no puede ser superior a la fecha hasta"
   },
   "invalidFields": {
-    "idInvalid": "El campo id no es válido"
+    "idInvalid": "El campo id no es válido",
+    "taskIdInvalid": "El taskId no es válido",
+    "taskExists": "La tarea con nombre {{name}} ya existe",
+    "invalidTaskState": "El estado de la tarea tiene un valor incorrecto"
   },
   "authorizationErrors": {
-    "userNotAuthorized": "El usuario {{email}} no está autorizado"
+    "userNotAuthorized": "El usuario {{email}} no está autorizado",
+    "missingToken": "Token no informado",
+    "invalidToken": "El token no es válido",
+    "taskNotUserProperty": "La tarea {{taskId}} no es propiedad del usuario"
   },
   "catchedErrors": {
     "errorStartingServer": "🔴 Error al iniciar el servidor",
-    "internalServerError": "Error interno del servidor",
+    "internalServerError": "🔴 Error interno del servidor",
     "tokenInvalid": "🔴 Error al validar el token",
     "userAvailability": "🔴 Error al obtener la disponibilidad del usuario",
     "errorGettingUser": "🔴 Error al obtener el usuario",
-    "errorCreatingUser": "🔴 Error al crear el usuario"
+    "errorCreatingUser": "🔴 Error al crear el usuario",
+    "errorGettingTask": "🔴 Error al recuperar la tarea",
+    "errorGettingTasks": "🔴 Error al recuperar las tareas",
+    "errorDeletingTasks": "🔴 Error al eliminar la tarea",
+    "errorSavingTask": "🔴 Error al guardar la tarea",
+    "errorUpdatingTask": "🔴 Error al actualizar la tarea",
+    "errorGettingTasksByState": "🔴 Error al recuperar las tareas por estado"
   },
   "successfulMessages": {
+    "taskDelete": "Tarea {{taskId}} borrada con éxito",
     "serverRunning": "🟢 El backend de administración de tareas está activo y funcionando en el puerto {{port}}"
   }
 }

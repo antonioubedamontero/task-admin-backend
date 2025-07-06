@@ -1,46 +1,51 @@
 // Task management controllers
 const mongoose = require("mongoose");
+const { Task } = require("../db/schemas/task-schema");
 
 const TaskState = require("../types/states.enum");
 const { generateToken } = require("../helpers/json-webtokens");
-const { Task } = require("../db/schemas/task-schema");
+const { taskMapperToJson } = require("../helpers/task-mapper");
 
 const getTasks = async (req, res) => {
+  const i18n = req.t;
+
   try {
-    const { id } = req;
-    const userIdAsObject = new mongoose.Types.ObjectId(id);
+    const { userId } = req;
+    const userIdAsObject = new mongoose.Types.ObjectId(userId);
     const tasks = await Task.find({ userId: userIdAsObject });
 
-    const mappedTasks = tasks.map((task) => {
-      /* eslint-disable no-unused-vars */
-      const { userId, __v, token, ...data } = task.toJSON();
-      return data;
-    });
+    const mappedTasks = taskMapperToJson(tasks);
 
     if (!mappedTasks || mappedTasks.length === 0) {
       return res
         .status(404)
-        .json({ message: "No tasks found by provide user" });
+        .json({ message: i18n("notFoundErrors.tasksNotFound") });
     }
 
     // Renew session token
     res.status(200).json({
       tasks: [...mappedTasks],
-      token: generateToken(id),
+      token: generateToken(userId),
     });
   } catch (error) {
-    console.error("🔴 Error getting tasks:", error);
-    return res.status(500).json({ message: "Internal server error" });
+    console.error(i18n("catchedErrors.errorGettingTasks"), error);
+    return res
+      .status(500)
+      .json({ message: i18n("catchedErrors.internalServerError") });
   }
 };
 
 const getTaskById = async (req, res) => {
+  const i18n = req.t;
+
   try {
-    const { id } = req.params;
-    const task = await Task.findById(id);
+    const { taskId } = req.params;
+    const task = await Task.findById(taskId);
 
     if (!task) {
-      return res.status(404).json({ message: `No task found with id ${id}` });
+      return res
+        .status(404)
+        .json({ message: i18n("notFoundErrors.taskNotFound", { taskId }) });
     }
 
     const { userId, __v, ...data } = task.toJSON();
@@ -48,69 +53,65 @@ const getTaskById = async (req, res) => {
     // Renew session token
     res.status(200).json({
       task: data,
-      token: generateToken(req.id),
+      token: generateToken(req.userId),
     });
   } catch (error) {
-    console.error("🔴 Error getting task:", error);
-    return res.status(500).json({ message: "Internal server error" });
+    console.error(i18n("catchedErrors.errorGettingTask"), error);
+    return res
+      .status(500)
+      .json({ message: i18n("catchedErrors.internalServerError") });
   }
 };
 
 const deleteTaskById = async (req, res) => {
-  const { id } = req.params;
+  const { taskId } = req.params;
+
+  const i18n = req.t;
 
   try {
-    await Task.findByIdAndDelete(id);
+    await Task.findByIdAndDelete(taskId);
 
     res.status(200).json({
-      message: `Task ${id} deleted successfully`,
-      token: generateToken(req.id),
+      message: i18n("successfulMessages.taskDelete", { taskId }),
+      token: generateToken(req.userId),
     });
   } catch (error) {
-    console.error("🔴 Error deleting task:", error);
-    return res.status(500).json({ message: "Internal server error" });
+    console.error(i18n("catchedErrors.errorDeletingTasks"), error);
+    return res
+      .status(500)
+      .json({ message: i18n("catchedErrors.internalServerError") });
   }
 };
 
 const createTask = async (req, res) => {
-  const { name, description, startDate, dueDate } = req.body;
-  const { id } = req;
+  const { userId } = req;
+  const { name, description } = req.body;
 
-  const userIdAsObject = new mongoose.Types.ObjectId(id);
+  const userIdAsObject = new mongoose.Types.ObjectId(userId);
+
+  const i18n = req.t;
 
   try {
     const taskFound = await Task.findOne({ name, userId: userIdAsObject });
 
     if (taskFound) {
       return res.status(409).json({
-        message: `task with name ${name} already exists for current user`,
+        message: i18n("invalidFields.taskExists", { name }),
       });
     }
 
-    const newTask = { name, description };
+    const newTask = {
+      name,
+      description,
+      currentState: TaskState.CREATED,
+      userId: userIdAsObject,
+    };
 
-    if (startDate) {
-      newTask.startDate = startDate;
-    }
+    const task = new Task({ ...newTask });
 
-    if (dueDate) {
-      newTask.dueDate = dueDate;
-    }
-
-    const task = new Task({ ...newTask, currentState: TaskState.CREATED });
-
-    if (task.startDate) {
-      task.startDate = new Date(startDate)?.toJSON();
-    }
-
-    if (task.dueDate) {
-      task.dueDate = new Date(dueDate)?.toJSON();
-    }
-
-    task.userId = userIdAsObject;
     task.logStates = [
       {
-        startDate: new Date().toJSON(),
+        startDate: new Date(),
         state: TaskState.CREATED,
       },
     ];
@@ -122,107 +123,123 @@ const createTask = async (req, res) => {
     // Renew session token
     res.status(201).json({
       data,
-      token: generateToken(id),
+      token: generateToken(userId),
     });
   } catch (error) {
-    console.error("🔴 Error saving user:", error);
-    return res.status(500).json({ message: "Internal server error" });
+    console.error(i18n("catchedErrors.errorSavingTask"), error);
+    return res
+      .status(500)
+      .json({ message: i18n("catchedErrors.internalServerError") });
   }
 };
 
+// TODO: Review this endpoint (crashes)
 const updateTaskById = async (req, res) => {
-  const { id } = req.params;
-  const { name, description, currentState, justification } = req.body;
+  const {
+    id,
+    name,
+    description,
+    justification,
+    currentState,
+    startDate,
+    dueDate,
+  } = req.body;
+
+  const i18n = req.t;
 
   try {
     const taskFound = await Task.findById(id);
 
     if (!taskFound) {
-      return res.status(404).json({ message: `Task ${id} not exists` });
-    }
-
-    // TODO: No need to send state if only changes name and/or description
-    // TODO: Validate that states are valid
-    if (currentState === taskFound.currentState) {
-      // Only changes name and/or description
-      if (!name && !description) {
-        return res.status(400).json({
-          message: "status is not changed and missing name or description",
-        });
-      }
-
-      taskFound.name = name ? name : taskFound.name;
-      taskFound.description = description ? description : taskFound.description;
-
-      await taskFound.save();
-
-      return res.status(200).json({
-        task: taskFound.toJSON(),
-        token: generateToken(req.id),
-      });
-    }
-
-    if (!justification) {
       return res
-        .status(400)
-        .json({ message: "justification is required when changing state" });
+        .status(404)
+        .json({ message: i18n("notFoundErrors.taskNotFound", { taskId }) });
     }
 
-    taskFound.currentState = currentState;
+    taskFound.justification = justification;
 
-    // Finish previous task date log state and add new log state
-    const lastLogStatePosition = taskFound.logStates.length - 1;
-    taskFound.logStates[lastLogStatePosition].endDate = new Date().toJSON();
-    taskFound.logStates.push({
-      startDate: new Date().toJSON(),
-      state: currentState,
-      endDate: null,
-      justification,
-    });
+    if (description) {
+      taskFound.description = description;
+    }
+
+    if (name) {
+      taskFound.name = name;
+    }
+
+    if (currentState) {
+      taskFound.currentState = currentState;
+    }
+
+    if (startDate) {
+      taskFound.startDate = new Date(startDate);
+    }
+
+    if (dueDate) {
+      taskFound.dueDate = new Date(dueDate);
+    }
+
+    addNewEntryToTaskLogState(taskFound.logStates, currentState);
 
     await taskFound.save();
 
     res.status(200).json({
       task: taskFound.toJSON(),
-      token: generateToken(req.id),
+      token: generateToken(req.userId),
     });
   } catch (error) {
-    console.error("🔴 Error updating task:", error);
-    return res.status(500).json({ message: "Internal server error" });
+    console.error(i18n("catchedErrors.errorUpdatingTask"), error);
+    return res
+      .status(500)
+      .json({ message: i18n("catchedErrors.internalServerError") });
   }
 };
 
+// TODO: Review this endpoint (crashes)
 const getTasksByState = async (req, res) => {
   try {
-    const { id } = req;
-    const { id: state } = req.params;
+    const { userId } = req;
+    const { state } = req.params;
 
-    const userIdAsObject = new mongoose.Types.ObjectId(id);
+    const i18n = req.t;
+
+    const userIdAsObject = new mongoose.Types.ObjectId(userId);
     const tasks = await Task.find({
       userId: userIdAsObject,
       currentState: state,
     });
 
-    const mappedTasks = tasks.map((task) => {
-      const { userId, __v, token, ...data } = task.toJSON();
-      return data;
-    });
+    const mappedTasks = mappedTasks(tasks);
 
     if (!mappedTasks || mappedTasks.length === 0) {
-      return res
-        .status(404)
-        .json({ message: `No tasks found for user with state ${state}` });
+      return res.status(404).json({
+        message: i18n("notFoundErrors.tasksNotFoundByState", { state }),
+      });
     }
 
     // Renew session token
     res.status(200).json({
       tasks: [...mappedTasks],
-      token: generateToken(id),
+      token: generateToken(userId),
     });
   } catch (error) {
-    console.error("🔴 Error getting tasks by state:", error);
-    return res.status(500).json({ message: "Internal server error" });
+    console.error(i18n("catchedErrors.errorGettingTasksByState"), error);
+    return res
+      .status(500)
+      .json({ message: i18n("catchedErrors.internalServerError") });
   }
+};
+
+const addNewEntryToTaskLogState = (logStates, currentState) => {
+  // Finish previous task date log state and add new log state
+  const lastLogStatePosition = logStates.length - 1;
+  logStates[lastLogStatePosition].endDate = new Date();
+
+  logStates.push({
+    startDate: new Date(),
+    state: currentState,
+    endDate: null,
+    justification,
+  });
 };
 
 module.exports = {

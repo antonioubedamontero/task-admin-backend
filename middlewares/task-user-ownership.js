@@ -1,38 +1,45 @@
 // Previously called validateAuthorization middleware
-const mongoose = require('mongoose');
-const { Task } = require('../db/schemas/task-schema');
+const mongoose = require("mongoose");
 
-const validateTaskUserOwnerShipByTaskId = async(req, res, next) => {
-    const { id } = req.params;
+const { isValidObjectId } = require("../helpers/object-id");
+const { Task } = require("../db/schemas/task-schema");
 
-    try {
-      const taskFound = await Task.findById(id);
+const validateTaskUserOwnerShipByTaskId = async (req, res, next) => {
+  let { taskId } = req.params;
 
-      if (!taskFound) {
-        return res.status(404).send(
-          { message: `task ${id} is not found` }
-        );
-      }
+  if (!taskId) {
+    taskId = req.body;
+  }
 
-      const { userId } = taskFound.toJSON();
-      const reqIdAsObject = new mongoose.Types.ObjectId(req.id);
+  const i18n = req.t;
 
-      if (!userId.equals(reqIdAsObject)) {
-        return res.status(403).send(
-          { message: `Task ${id} is not property of user`}
-        );
-      }
-      
-      next();
+  if (!isValidObjectId(taskId)) {
+    return res.status(400).json({
+      message: i18n("invalidFields.taskIdInvalid"),
+    });
+  }
 
-    } catch (error) {
-      console.error('🔴 Error validating task ownership:', error);
-      return res.status(500).send(
-        { message: 'Internal server error' }
-      );      
-    }
-}
+  const taskFound = await Task.findById(taskId);
+
+  if (!taskFound) {
+    return res
+      .status(404)
+      .send({ message: i18n("notFoundErrors.taskNotFound", { taskId }) });
+  }
+
+  const { userId } = taskFound.toJSON();
+
+  const reqIdAsObject = new mongoose.Types.ObjectId(req.userId);
+
+  if (!userId.equals(reqIdAsObject)) {
+    return res.status(403).send({
+      message: i18n("authorizationErrors.taskNotUserProperty", { taskId }),
+    });
+  }
+
+  next();
+};
 
 module.exports = {
-  validateTaskUserOwnerShipByTaskId
-}; 
+  validateTaskUserOwnerShipByTaskId,
+};

@@ -1,26 +1,49 @@
 {
+  "notFoundErrors": {
+    "taskNotFound": "Task {{taskId}} does not exist",
+    "tasksNotFound": "No tasks exist for the user",
+    "tasksNotFoundByState": "No tasks exist for the user with state {{state}}"
+  },
   "requiredFieldsErrors": {
-    "emailTaken": "The user with the email address {{email}} already exists",
-    "loginFieldsRequired": "The email and password are required",
+    "emailTaken": "The user with the email {{email}} already exists",
+    "loginFieldsRequired": "Email and password are required",
     "validateTokenRequiredFields": "The token is required",
-    "userAvailabilityRequiredFields": "The email is required",
-    "registerRequiredFields": "The email, password, first name, and last name fields are required"
+    "userAvailabilityRequiredFields": "Email is required",
+    "registerRequiredFields": "The email, password, firstname, and lastname fields are required",
+    "createTaskRequireFields": "Firstname and description are required",
+    "datesModifiableIfStarted": "You can only modify dates on started tasks",
+    "justificationRequired": "The justification field is required",
+    "datesModificationRequired": "You must enter the dates",
+    "startDateGreaterThanEndDate": "The from date cannot be greater than the to date"
   },
   "invalidFields": {
-    "idInvalid": "The id field is not valid"
+    "idInvalid": "The id field is invalid",
+    "taskIdInvalid": "The taskId is invalid",
+    "taskExists": "The task named {{name}} already exists",
+    "invalidTaskState": "The task state has an incorrect value"
   },
   "authorizationErrors": {
-    "userNotAuthorized": "The user {{email}} is not authorized"
+    "userNotAuthorized": "The user {{email}} is not authorized",
+    "missingToken": "Token not entered",
+    "invalidToken": "The token is invalid",
+    "taskNotUserProperty": "Task {{taskId}} is not owned by the user"
   },
   "catchedErrors": {
-    "errorStartingServer": "🔴 Error starting the server",
-    "internalServerError": "Internal Server Error",
+    "errorStartingServer": "🔴 Error starting server",
+    "internalServerError": "🔴 Internal server error",
     "tokenInvalid": "🔴 Error validating token",
     "userAvailability": "🔴 Error getting user availability",
     "errorGettingUser": "🔴 Error getting user",
-    "errorCreatingUser": "🔴 Error creating user"
+    "errorCreatingUser": "🔴 Error creating user",
+    "errorGettingTask": "🔴 Error retrieving task",
+    "errorGettingTasks": "🔴 Error retrieving tasks",
+    "errorDeletingTasks": "🔴 Error deleting task",
+    "errorSavingTask": "🔴 Error saving task",
+    "errorUpdatingTask": "🔴 Error updating task",
+    "errorGettingTasksByState": "🔴 Error retrieving tasks by state"
   },
   "successfulMessages": {
+    "taskDelete": "Task {{taskId}} successfully deleted",
     "serverRunning": "🟢 The task management backend is up and running on port {{port}}"
   }
 }
