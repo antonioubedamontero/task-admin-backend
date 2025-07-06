@@ -1,0 +1,26 @@
+{
+  "requiredFieldsErrors": {
+    "emailTaken": "El usuario con el correo electrónico {{email}} ya existe",
+    "loginFieldsRequired": "El email y la contraseña son obligatorios",
+    "validateTokenRequiredFields": "El token es obligatorio",
+    "userAvailabilityRequiredFields": "El email es obligatorio",
+    "registerRequiredFields": "Los campos email, password, name and surname son obligatorios"
+  },
+  "invalidFields": {
+    "idInvalid": "El campo id no es válido"
+  },
+  "authorizationErrors": {
+    "userNotAuthorized": "El usuario {{email}} no está autorizado"
+  },
+  "catchedErrors": {
+    "errorStartingServer": "🔴 Error al iniciar el servidor",
+    "internalServerError": "Error interno del servidor",
+    "tokenInvalid": "🔴 Error al validar el token",
+    "userAvailability": "🔴 Error al obtener la disponibilidad del usuario",
+    "errorGettingUser": "🔴 Error al obtener el usuario",
+    "errorCreatingUser": "🔴 Error al crear el usuario"
+  },
+  "successfulMessages": {
+    "serverRunning": "🟢 El backend de administración de tareas está activo y funcionando en el puerto {{port}}"
+  }
+}

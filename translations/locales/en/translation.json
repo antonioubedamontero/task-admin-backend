@@ -1,0 +1,26 @@
+{
+  "requiredFieldsErrors": {
+    "emailTaken": "The user with the email address {{email}} already exists",
+    "loginFieldsRequired": "The email and password are required",
+    "validateTokenRequiredFields": "The token is required",
+    "userAvailabilityRequiredFields": "The email is required",
+    "registerRequiredFields": "The email, password, first name, and last name fields are required"
+  },
+  "invalidFields": {
+    "idInvalid": "The id field is not valid"
+  },
+  "authorizationErrors": {
+    "userNotAuthorized": "The user {{email}} is not authorized"
+  },
+  "catchedErrors": {
+    "errorStartingServer": "🔴 Error starting the server",
+    "internalServerError": "Internal Server Error",
+    "tokenInvalid": "🔴 Error validating token",
+    "userAvailability": "🔴 Error getting user availability",
+    "errorGettingUser": "🔴 Error getting user",
+    "errorCreatingUser": "🔴 Error creating user"
+  },
+  "successfulMessages": {
+    "serverRunning": "🟢 The task management backend is up and running on port {{port}}"
+  }
+}

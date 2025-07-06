@@ -1,31 +1,32 @@
 require("dotenv").config(); // Load vars from .env
+
 const User = require("../db/schemas/user-schema");
 const { generateToken } = require("../helpers/json-webtokens");
-const jwt = require("jsonwebtoken");
 
 const {
   codePassword,
   isValidPassword,
 } = require("../helpers/password-encription");
 
+const { getDecodedToken } = require("../helpers/json-webtokens");
+
 const validateToken = async (req, res) => {
-  try {
-    const { token } = req.body;
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+  const i18n = req.t;
 
-    if (!decodedToken) {
-      return res.status(200).json({ isValidToken: false });
-    }
+  const { token } = req.body;
+  const decodedToken = getDecodedToken(token);
 
-    res.status(200).json({ isValidToken: true });
-  } catch (error) {
-    console.error("🔴 Error validating token:", error);
+  if (!decodedToken) {
     return res.status(200).json({ isValidToken: false });
   }
+
+  res.status(200).json({ isValidToken: true });
 };
 
 const userAvailability = async (req, res) => {
   const { email } = req.params;
+
+  const i18n = req.t;
 
   try {
     const userFound = await User.findOne({ email });
@@ -36,29 +37,33 @@ const userAvailability = async (req, res) => {
 
     res.status(200).json({ isAvailable: false });
   } catch (error) {
-    console.error("🔴 Error getting user availability:", error);
-    return res.status(500).json({ message: "Internal server error" });
+    console.error(i18n("catchedErrors.userAvailability"), error);
+    return res
+      .status(500)
+      .json({ message: i18n("catchedErrors.internalServerError") });
   }
 };
 
-const getUser = async (req, res) => {
+const login = async (req, res) => {
   const { email, password } = req.body;
+
+  const i18n = req.t;
 
   try {
     const userFound = await User.findOne({ email });
 
     if (!userFound) {
-      return res
-        .status(401)
-        .json({ message: `User ${email} is not authorized` });
+      return res.status(401).json({
+        message: i18n("authorizationErrors.userNotAuthorized", { email }),
+      });
     }
 
     const isPasswordOk = isValidPassword(password, userFound.password);
 
     if (!isPasswordOk) {
-      return res
-        .status(401)
-        .json({ message: `User ${email} is not authorized` });
+      return res.status(401).json({
+        message: i18n("authorizationErrors.userNotAuthorized", { email }),
+      });
     }
 
     /* eslint-disable no-unused-vars */
@@ -72,19 +77,24 @@ const getUser = async (req, res) => {
       token: generateToken(userFound._id),
     });
   } catch (error) {
-    console.error("🔴 Error getting user:", error);
-    return res.status(500).json({ message: "Internal server error" });
+    console.error(i18n("catchedErrors.errorGettingUser"), error);
+    return res
+      .status(500)
+      .json({ message: i18n("catchedErrors.internalServerError") });
   }
 };
 
-const createUser = async (req, res) => {
+const register = async (req, res) => {
   try {
     const { email, password, name, surname } = req.body;
+    const i18n = req.t;
 
     const userFound = await User.findOne({ email });
 
     if (userFound) {
-      return res.status(409).json({ message: `User ${email} already exists` });
+      return res
+        .status(409)
+        .json({ message: i18n("requiredFieldsErrors.emailTaken", { email }) });
     }
 
     const user = new User({ email, password, name, surname });
@@ -101,14 +111,16 @@ const createUser = async (req, res) => {
       token: generateToken(user._id),
     });
   } catch (error) {
-    console.error("🔴 Error creating user:", error);
-    return res.status(500).json({ message: "Internal server error" });
+    console.error(i18n("catchedErrors.errorCreatingUser"), error);
+    return res
+      .status(500)
+      .json({ message: i18n("catchedErrors.internalServerError") });
   }
 };
 
 module.exports = {
-  getUser,
-  createUser,
+  login,
+  register,
   userAvailability,
   validateToken,
 };

@@ -97,7 +97,7 @@ const createTask = async (req, res) => {
       newTask.dueDate = dueDate;
     }
 
-    const task = new Task({ newTask });
+    const task = new Task({ ...newTask, currentState: TaskState.CREATED });
 
     if (task.startDate) {
       task.startDate = new Date(startDate)?.toJSON();
@@ -108,11 +108,10 @@ const createTask = async (req, res) => {
     }
 
     task.userId = userIdAsObject;
-    task.currentState = TaskState.BACKLOG;
     task.logStates = [
       {
         startDate: new Date().toJSON(),
-        state: TaskState.BACKLOG,
+        state: TaskState.CREATED,
       },
     ];
 
