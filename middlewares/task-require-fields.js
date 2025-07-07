@@ -1,5 +1,5 @@
 const { isValidTaskState } = require("../helpers/valid-states");
-const { TaskState } = require("../types/states.enum");
+const TaskState = require("../types/states.enum");
 const { Task } = require("../db/schemas/task-schema");
 
 const createTaskRequiredFields = (req, res, next) => {
@@ -35,11 +35,10 @@ const patchRequiredFields = async (req, res, next) => {
         });
       }
     }
+    next();
   } catch (error) {
     return error;
   }
-
-  next();
 };
 
 const validateCommonPatchFields = (req, res) => {
@@ -69,18 +68,20 @@ const validateCommonPatchFields = (req, res) => {
 };
 
 const verifyDates = (req, res) => {
-  // Validations for started tsk state
+  // Validations for started task state
+  const i18n = req.t;
+
   return new Promise(async (resolve, reject) => {
     try {
-      let { id, startDate, dueDate } = req.body;
+      let { taskId, startDate, dueDate } = req.body;
 
-      const task = await Task.findById(id);
+      const task = await Task.findById(taskId);
 
       if (!task) {
         return reject(
           res
             .status(404)
-            .json({ message: i18n("notFoundErrors.taskNotFound", { id }) })
+            .json({ message: i18n("notFoundErrors.taskNotFound", { taskId }) })
         );
       }
 

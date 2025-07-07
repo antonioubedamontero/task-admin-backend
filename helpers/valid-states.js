@@ -1,4 +1,4 @@
-const { TaskState } = require("../types/states.enum");
+const TaskState = require("../types/states.enum");
 
 const isValidTaskState = (state) => {
   const validStates = Object.values(TaskState);

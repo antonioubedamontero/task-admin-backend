@@ -133,10 +133,9 @@ const createTask = async (req, res) => {
   }
 };
 
-// TODO: Review this endpoint (crashes)
 const updateTaskById = async (req, res) => {
   const {
-    id,
+    taskId,
     name,
     description,
     justification,
@@ -148,7 +147,9 @@ const updateTaskById = async (req, res) => {
   const i18n = req.t;
 
   try {
-    const taskFound = await Task.findById(id);
+    const taskIdAsObject = new mongoose.Types.ObjectId(taskId);
+
+    const taskFound = await Task.findById(taskIdAsObject);
 
     if (!taskFound) {
       return res
@@ -178,7 +179,7 @@ const updateTaskById = async (req, res) => {
       taskFound.dueDate = new Date(dueDate);
     }
 
-    addNewEntryToTaskLogState(taskFound.logStates, currentState);
+    addNewEntryToTaskLogState(taskFound.logStates, currentState, justification);
 
     await taskFound.save();
 
@@ -194,21 +195,20 @@ const updateTaskById = async (req, res) => {
   }
 };
 
-// TODO: Review this endpoint (crashes)
 const getTasksByState = async (req, res) => {
+  const { userId } = req;
+  const { state } = req.params;
+
+  const i18n = req.t;
+
   try {
-    const { userId } = req;
-    const { state } = req.params;
-
-    const i18n = req.t;
-
     const userIdAsObject = new mongoose.Types.ObjectId(userId);
     const tasks = await Task.find({
       userId: userIdAsObject,
       currentState: state,
     });
 
-    const mappedTasks = mappedTasks(tasks);
+    const mappedTasks = taskMapperToJson(tasks);
 
     if (!mappedTasks || mappedTasks.length === 0) {
       return res.status(404).json({
@@ -229,7 +229,7 @@ const getTasksByState = async (req, res) => {
   }
 };
 
-const addNewEntryToTaskLogState = (logStates, currentState) => {
+const addNewEntryToTaskLogState = (logStates, currentState, justification) => {
   // Finish previous task date log state and add new log state
   const lastLogStatePosition = logStates.length - 1;
   logStates[lastLogStatePosition].endDate = new Date();

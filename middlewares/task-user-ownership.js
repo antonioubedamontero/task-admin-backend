@@ -5,11 +5,10 @@ const { isValidObjectId } = require("../helpers/object-id");
 const { Task } = require("../db/schemas/task-schema");
 
 const validateTaskUserOwnerShipByTaskId = async (req, res, next) => {
-  let { taskId } = req.params;
+  const { taskId: taskIdParams } = req.params;
+  const { taskId: taskIdBody } = req.body;
 
-  if (!taskId) {
-    taskId = req.body;
-  }
+  const taskId = taskIdParams ? taskIdParams : taskIdBody;
 
   const i18n = req.t;
 
@@ -28,7 +27,6 @@ const validateTaskUserOwnerShipByTaskId = async (req, res, next) => {
   }
 
   const { userId } = taskFound.toJSON();
-
   const reqIdAsObject = new mongoose.Types.ObjectId(req.userId);
 
   if (!userId.equals(reqIdAsObject)) {
