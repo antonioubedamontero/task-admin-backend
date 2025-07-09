@@ -118,11 +118,11 @@ const createTask = async (req, res) => {
 
     await task.save();
 
-    const { __v, userId, ...data } = task.toJSON();
+    const { __v, userId, ...taskData } = task.toJSON();
 
     // Renew session token
     res.status(201).json({
-      data,
+      task: taskData,
       token: generateToken(userId),
     });
   } catch (error) {
