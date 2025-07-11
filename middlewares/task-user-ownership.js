@@ -5,10 +5,9 @@ const { isValidObjectId } = require("../helpers/object-id");
 const { Task } = require("../db/schemas/task-schema");
 
 const validateTaskUserOwnerShipByTaskId = async (req, res, next) => {
-  const { taskId: taskIdParams } = req.params;
-  const { taskId: taskIdBody } = req.body;
-
-  const taskId = taskIdParams ? taskIdParams : taskIdBody;
+  const taskId = req.params["taskId"]
+    ? req.params["taskId"]
+    : req.body["taskId"];
 
   const i18n = req.t;
 
