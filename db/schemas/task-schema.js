@@ -7,7 +7,7 @@ const STATE_VALUES = Object.values(TaskState);
 const LogStateSchema = new mongoose.Schema(
   {
     startDate: {
-      type: Date,
+      type: String,
       required: true,
     },
     state: {
@@ -16,7 +16,7 @@ const LogStateSchema = new mongoose.Schema(
       enum: [...STATE_VALUES],
     },
     endDate: {
-      type: Date,
+      type: String,
     },
     justification: {
       type: String,
@@ -37,10 +37,10 @@ const TaskSchema = new mongoose.Schema(
       default: "",
     },
     startDate: {
-      type: Date,
+      type: String,
     },
     dueDate: {
-      type: Date,
+      type: String,
     },
     currentState: {
       type: String,

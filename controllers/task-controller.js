@@ -111,7 +111,7 @@ const createTask = async (req, res) => {
 
     task.logStates = [
       {
-        startDate: new Date(),
+        startDate: new Date().toISOString(),
         state: TaskState.CREATED,
       },
     ];
@@ -135,7 +135,7 @@ const createTask = async (req, res) => {
 
 const updateTaskById = async (req, res) => {
   const {
-    taskId,
+    _id,
     name,
     description,
     justification,
@@ -147,7 +147,7 @@ const updateTaskById = async (req, res) => {
   const i18n = req.t;
 
   try {
-    const taskIdAsObject = new mongoose.Types.ObjectId(taskId);
+    const taskIdAsObject = new mongoose.Types.ObjectId(_id);
 
     const taskFound = await Task.findById(taskIdAsObject);
 
@@ -167,16 +167,16 @@ const updateTaskById = async (req, res) => {
       taskFound.name = name;
     }
 
-    if (currentState) {
-      taskFound.currentState = currentState;
-    }
-
     if (startDate) {
-      taskFound.startDate = new Date(startDate);
+      taskFound.startDate = new Date(startDate).toISOString();
     }
 
     if (dueDate) {
-      taskFound.dueDate = new Date(dueDate);
+      taskFound.dueDate = new Date(dueDate).toISOString();
+    }
+
+    if (currentState) {
+      taskFound.currentState = currentState;
     }
 
     addNewEntryToTaskLogState(taskFound.logStates, currentState, justification);
@@ -232,10 +232,10 @@ const getTasksByState = async (req, res) => {
 const addNewEntryToTaskLogState = (logStates, currentState, justification) => {
   // Finish previous task date log state and add new log state
   const lastLogStatePosition = logStates.length - 1;
-  logStates[lastLogStatePosition].endDate = new Date();
+  logStates[lastLogStatePosition].endDate = new Date().toISOString();
 
   logStates.push({
-    startDate: new Date(),
+    startDate: new Date().toISOString(),
     state: currentState,
     endDate: null,
     justification,

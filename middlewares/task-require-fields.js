@@ -1,6 +1,9 @@
-const { isValidTaskState } = require("../helpers/valid-states");
-const TaskState = require("../types/states.enum");
+const {
+  isValidTaskState,
+  isValidObjectId,
+} = require("../helpers/valid-states");
 const { Task } = require("../db/schemas/task-schema");
+const TaskState = require("../types/states.enum");
 
 const createTaskRequiredFields = (req, res, next) => {
   const { name, description } = req.body;
@@ -25,6 +28,9 @@ const patchRequiredFields = async (req, res, next) => {
     // Common patch validations
     await validateCommonPatchFields(req, res);
 
+    // Validate name and description
+    await validateNameDescription(req, res);
+
     // Dates validations
     if (currentState === TaskState.STARTED) {
       await verifyDates(req, res);
@@ -41,11 +47,43 @@ const patchRequiredFields = async (req, res, next) => {
   }
 };
 
+const validateNameDescription = (req, res) => {
+  return new Promise((resolve, reject) => {
+    const { name, description } = req.body;
+
+    if (name && name.length === 0) {
+      return reject(
+        res.status(400).json({
+          message: i18n("requiredFieldsErrors.nameIsEmpty"),
+        })
+      );
+    }
+
+    if (description && description.length === 0) {
+      return reject(
+        res.status(400).json({
+          message: i18n("requiredFieldsErrors.descriptionIsEmpty"),
+        })
+      );
+    }
+
+    resolve("ok");
+  });
+};
+
 const validateCommonPatchFields = (req, res) => {
   return new Promise(async (resolve, reject) => {
-    const { currentState, justification } = req.body;
+    const { taskId, currentState, justification } = req.body;
 
     const i18n = req.t;
+
+    if (!taskId || !isValidObjectId(taskId)) {
+      return reject(
+        res.status(400).json({
+          message: i18n("requiredFieldsErrors.idRequired"),
+        })
+      );
+    }
 
     if (!justification) {
       return reject(

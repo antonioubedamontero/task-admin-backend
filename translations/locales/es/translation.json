@@ -14,7 +14,10 @@
     "datesModifiableIfStarted": "Sólo puede modificar las fechas en tareas iniciadas",
     "justificationRequired": "El campo justificación es obligatorio",
     "datesModificationRequired": "Debe informar las fechas",
-    "startDateGreaterThanEndDate": "La fecha desde no puede ser superior a la fecha hasta"
+    "startDateGreaterThanEndDate": "La fecha desde no puede ser superior a la fecha hasta",
+    "idRequired": "El id de la tarea es obligatorio",
+    "nameIsEmpty": "El nombre no puede venir vacío",
+    "descriptionIsEmpty": "La descripción no puede venir vacía"
   },
   "invalidFields": {
     "idInvalid": "El campo id no es válido",

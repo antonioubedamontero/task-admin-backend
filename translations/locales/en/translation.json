@@ -14,18 +14,21 @@
     "datesModifiableIfStarted": "You can only modify dates on started tasks",
     "justificationRequired": "The justification field is required",
     "datesModificationRequired": "You must enter the dates",
-    "startDateGreaterThanEndDate": "The from date cannot be greater than the to date"
+    "startDateGreaterThanEndDate": "The from date cannot be greater than the to date",
+    "idRequired": "The task ID is required",
+    "nameIsEmpty": "The name cannot be empty",
+    "descriptionIsEmpty": "The description cannot be empty"
   },
   "invalidFields": {
-    "idInvalid": "The id field is invalid",
-    "taskIdInvalid": "The taskId is invalid",
-    "taskExists": "The task named {{name}} already exists",
+    "idInvalid": "The ID field is invalid",
+    "taskIdInvalid": "The task ID is invalid",
+    "taskExists": "The task with the name {{name}} already exists",
     "invalidTaskState": "The task state has an incorrect value"
   },
   "authorizationErrors": {
-    "userNotAuthorized": "The user {{email}} is not authorized",
-    "missingToken": "Token not entered",
-    "invalidToken": "The token is invalid",
+    "userNotAuthorized": "User {{email}} is not authorized",
+    "missingToken": "Token not provided",
+    "invalidToken": "Token is invalid",
     "taskNotUserProperty": "Task {{taskId}} is not owned by the user"
   },
   "catchedErrors": {
@@ -36,7 +39,7 @@
     "errorGettingUser": "🔴 Error getting user",
     "errorCreatingUser": "🔴 Error creating user",
     "errorGettingTask": "🔴 Error retrieving task",
-    "errorGettingTasks": "🔴 Error retrieving tasks",
+    "errorGettingTasks": "🔴 Error when retrieving tasks",
     "errorDeletingTasks": "🔴 Error deleting task",
     "errorSavingTask": "🔴 Error saving task",
     "errorUpdatingTask": "🔴 Error updating task",
