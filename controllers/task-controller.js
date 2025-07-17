@@ -135,7 +135,7 @@ const createTask = async (req, res) => {
 
 const updateTaskById = async (req, res) => {
   const {
-    _id,
+    taskId,
     name,
     description,
     justification,
@@ -147,7 +147,7 @@ const updateTaskById = async (req, res) => {
   const i18n = req.t;
 
   try {
-    const taskIdAsObject = new mongoose.Types.ObjectId(_id);
+    const taskIdAsObject = new mongoose.Types.ObjectId(taskId);
 
     const taskFound = await Task.findById(taskIdAsObject);
 

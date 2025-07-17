@@ -1,7 +1,6 @@
-const {
-  isValidTaskState,
-  isValidObjectId,
-} = require("../helpers/valid-states");
+const { isValidTaskState } = require("../helpers/valid-states");
+const { isValidObjectId } = require("../helpers/object-id");
+
 const { Task } = require("../db/schemas/task-schema");
 const TaskState = require("../types/states.enum");
 
