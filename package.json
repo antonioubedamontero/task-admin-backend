@@ -1,6 +1,6 @@
 {
   "name": "task-admin-backend",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Task admin backend application",
   "main": "app.js",
   "scripts": {
