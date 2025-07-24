@@ -1,0 +1,19 @@
+# Dockerfile for app node/express server
+FROM node:24-alpine
+
+# Create working directory
+WORKDIR /usr/src/task-admin
+
+COPY package*.json ./
+
+# Install dependencies for production
+RUN npm install --only=production
+
+# Copy remaining files
+COPY . .
+
+# Expose app port
+EXPOSE 3000
+
+# Start application
+CMD ["node", "app.js"]

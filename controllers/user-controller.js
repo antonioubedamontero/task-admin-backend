@@ -85,9 +85,10 @@ const login = async (req, res) => {
 };
 
 const register = async (req, res) => {
+  const i18n = req.t;
+
   try {
     const { email, password, name, surname } = req.body;
-    const i18n = req.t;
 
     const userFound = await User.findOne({ email });
 

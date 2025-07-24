@@ -1,0 +1,25 @@
+# For up mongodb and express server together
+services:
+  task-admin-backend:
+    build: .
+    container_name: task-admin-backend
+    restart: always
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+    env_file:
+      - .env
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:6
+    container_name: task-admin-mongo
+    restart: always
+    ports:
+      - "${MONGO_PORT}:${MONGO_PORT}"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
+    driver: local

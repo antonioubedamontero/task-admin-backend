@@ -38,6 +38,47 @@ npm run start:dev
 npm run start
 ```
 
+## Build and up application and db:
+
+```bash
+docker compose up --build -d
+```
+
+- App is avaiable in http://localhost:3000.
+- Mongodb database is available in http://localhost:27017
+
+## Stop backend and db services (and delete containers):
+
+```bash
+docker compose down
+```
+
+## Start and stop without recreate containers:
+
+Starts containers:
+
+```bash
+docker compose start
+```
+
+Stop containers but not delete them:
+
+```bash
+docker compose stop
+```
+
+## To view containers running:
+
+```bash
+docker compose ps
+```
+
+## To view backend logs:
+
+```bash
+docker compose logs -f task-admin-backend
+```
+
 ## Available endpoints:
 
 See postman folder with examples

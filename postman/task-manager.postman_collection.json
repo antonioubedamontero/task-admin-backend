@@ -53,7 +53,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"user3@gmail.com\",\n    \"name\": \"User 3\",\n    \"surname\": \"surname 3\",\n    \"password\": \"123456\"\n}",
+							"raw": "{\n    \"email\": \"user1@gmail.com\",\n    \"name\": \"User 1\",\n    \"surname\": \"surname 1\",\n    \"password\": \"123456\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -82,7 +82,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/users/user1@gmail.com/taken",
+							"raw": "http://localhost:3000/api/users/user2@gmail.com/taken",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -91,7 +91,7 @@
 							"path": [
 								"api",
 								"users",
-								"user1@gmail.com",
+								"user2@gmail.com",
 								"taken"
 							]
 						}
@@ -105,7 +105,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiNjg2YTVjY2RhYmI1NDczMmE0MDEyNDhhIiwiaWF0IjoxNzUxODAxMDY4LCJleHAiOjE3NTE4MDQ2Njh9.-u2PRDuOE88UT-qcbCDndPpj1bGv1GH7JjdPm-K3guY\"\n}",
+							"raw": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiNjg4MWUxMGYwMTBmZTc5NzFiNjY1MmU2IiwiaWF0IjoxNzUzMzQyMjk3LCJleHAiOjE3NTMzNDU4OTd9.qYT7KBZuDOQOsG8T8Ynaht7n0xV-TqhiGi3HmQQV1tk\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -140,7 +140,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiNjg2YTVhMzUwYTNiZTU1OWE0MTQ1Y2M1IiwiaWF0IjoxNzUxOTU3MjQwLCJleHAiOjE3NTE5NjA4NDB9.kUNkQ_fyL0pkdTqk8GsapIRjs1ibnlw7jvTiqv60lAc",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiNjg4MWUxMGYwMTBmZTc5NzFiNjY1MmU2IiwiaWF0IjoxNzUzMzQyMjk3LCJleHAiOjE3NTMzNDU4OTd9.qYT7KBZuDOQOsG8T8Ynaht7n0xV-TqhiGi3HmQQV1tk",
 								"type": "text"
 							}
 						],
@@ -166,12 +166,12 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiNjg2YTVhMzUwYTNiZTU1OWE0MTQ1Y2M1IiwiaWF0IjoxNzUxODM3MzI5LCJleHAiOjE3NTE4NDA5Mjl9.PncaHMunciWFO7jCrDoamqYGxGFdaN3WbQH2vDDeauQ",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiNjg4MWUxMGYwMTBmZTc5NzFiNjY1MmU2IiwiaWF0IjoxNzUzMzQyNDI3LCJleHAiOjE3NTMzNDYwMjd9.kyqHQYUxpwiA8covILv774q2262Te6ylpPeIOor7NIY",
 								"type": "text"
 							}
 						],
 						"url": {
-							"raw": "http://localhost:3000/api/tasks/686aeb2692789287a69d30ea",
+							"raw": "http://localhost:3000/api/tasks/6881e1c8010fe7971b6652f2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -180,7 +180,7 @@
 							"path": [
 								"api",
 								"tasks",
-								"686aeb2692789287a69d30ea"
+								"6881e1c8010fe7971b6652f2"
 							]
 						}
 					},
@@ -193,12 +193,12 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiNjg2YTVhMzUwYTNiZTU1OWE0MTQ1Y2M1IiwiaWF0IjoxNzUxODM3MzI5LCJleHAiOjE3NTE4NDA5Mjl9.PncaHMunciWFO7jCrDoamqYGxGFdaN3WbQH2vDDeauQ",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiNjg4MWUxMGYwMTBmZTc5NzFiNjY1MmU2IiwiaWF0IjoxNzUzMzQyNDg4LCJleHAiOjE3NTMzNDYwODh9.hiIsZJhwtilhIzWMkhqay5wzKtJMrmGBVYEvt3r6560",
 								"type": "text"
 							}
 						],
 						"url": {
-							"raw": "http://localhost:3000/api/tasks/686aeb0c92789287a69d30e6",
+							"raw": "http://localhost:3000/api/tasks/6881e1c8010fe7971b6652f2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -207,7 +207,7 @@
 							"path": [
 								"api",
 								"tasks",
-								"686aeb0c92789287a69d30e6"
+								"6881e1c8010fe7971b6652f2"
 							]
 						}
 					},
@@ -220,13 +220,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiNjg2YTVhMzUwYTNiZTU1OWE0MTQ1Y2M1IiwiaWF0IjoxNzUyMTAwOTQxLCJleHAiOjE3NTIxMDQ1NDF9.tXYyZA2AK0YneA6IVhs0QPkrhA5NVoEOVJJiNpS4U-I",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiNjg4MWUxMGYwMTBmZTc5NzFiNjY1MmU2IiwiaWF0IjoxNzUzMzQyMjk3LCJleHAiOjE3NTMzNDU4OTd9.qYT7KBZuDOQOsG8T8Ynaht7n0xV-TqhiGi3HmQQV1tk",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"task5\",\n    \"description\": \"Task5 description\"\n}",
+							"raw": "{\n    \"name\": \"task2\",\n    \"description\": \"Task2 description\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -255,12 +255,12 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiNjg2YTVhMzUwYTNiZTU1OWE0MTQ1Y2M1IiwiaWF0IjoxNzUxODY0NjQ2LCJleHAiOjE3NTE4NjgyNDZ9.EuFhhvd3oVb74GbqaUy-wGDkBxJNJLqbqfCK2mbXHR0",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiNjg4MWUxMGYwMTBmZTc5NzFiNjY1MmU2IiwiaWF0IjoxNzUzMzQyMjk3LCJleHAiOjE3NTMzNDU4OTd9.qYT7KBZuDOQOsG8T8Ynaht7n0xV-TqhiGi3HmQQV1tk",
 								"type": "text"
 							}
 						],
 						"url": {
-							"raw": "http://localhost:3000/api/tasks/state/created",
+							"raw": "http://localhost:3000/api/tasks/state/started",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -270,7 +270,7 @@
 								"api",
 								"tasks",
 								"state",
-								"created"
+								"started"
 							]
 						}
 					},
@@ -283,13 +283,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiNjg2YTVhMzUwYTNiZTU1OWE0MTQ1Y2M1IiwiaWF0IjoxNzUxOTE0ODU0LCJleHAiOjE3NTE5MTg0NTR9.YRciQiv1p0PO5woHGeVUwuwz3Mx3W8ph0mI1rLPaDxY",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiNjg4MWUxMGYwMTBmZTc5NzFiNjY1MmU2IiwiaWF0IjoxNzUzMzQyNjEwLCJleHAiOjE3NTMzNDYyMTB9.yGv93JRDtIDEoS87uUa1Nll_Dc42ib-V9D3-XXqLykY",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"taskId\": \"686aeb2692789287a69d30ea\",\n    \"currentState\": \"started\",\n    \"justification\": \"Task is started\",\n    \"startDate\": \"Mon Jul 07 2025 21:25:26 GMT+0200 (hora de verano de Europa central)\",\n    \"dueDate\": \"Mon Jul 07 2025 21:35:26 GMT+0200 (hora de verano de Europa central)\"\n}",
+							"raw": "{\n    \"taskId\": \"6881e1cf010fe7971b6652f5\",\n    \"currentState\": \"started\",\n    \"description\": \"task 3 description with more content\",\n    \"dueDate\": \"2025-07-31T09:50:12.000Z\",\n    \"justification\": \"Started and added dates\",\n    \"name\": \"Task 3 modified\",\n    \"startDate\": \"2025-07-24T09:50:12.000Z\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
