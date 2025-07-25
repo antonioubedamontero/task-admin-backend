@@ -93,11 +93,11 @@ docker compose ps
 - In production:
 
 ```bash
-docker compose logs -f task-admin-backend
+docker compose -f docker-compose.prod.yml logs -f task-admin-backend
 ```
 
 - In development:
 
 ```bash
-docker compose logs -f task-admin-backend-dev
+docker compose -f docker-compose.dev.yml logs -f task-admin-backend-dev
 ```

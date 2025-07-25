@@ -1,6 +1,9 @@
 services:
   task-admin-backend-dev:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: task-admin-dev-backend:latest
     container_name: task-admin-backend-dev
     ports:
       - "${APP_PORT}:${APP_PORT}"
@@ -11,15 +14,15 @@ services:
     environment:
       - .env.dev
     depends_on:
-      - mongo-dev
+      - mongo
 
-  mongo-dev:
+  mongo:
     image: mongo:6
     container_name: task-admin-mongo-dev
     ports:
       - "${MONGO_PORT}:${MONGO_PORT}"
     volumes:
-      - mongo-data-dev:/data/db-dev
+      - mongo-data-dev:/data/db
 
 volumes:
   mongo-data-dev:

@@ -1,7 +1,10 @@
 # For up mongodb and express server together
 services:
   task-admin-backend:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    image: task-admin-backend:latest
     container_name: task-admin-backend
     restart: always
     ports:
