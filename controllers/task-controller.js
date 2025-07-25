@@ -48,6 +48,7 @@ const getTaskById = async (req, res) => {
         .json({ message: i18n("notFoundErrors.taskNotFound", { taskId }) });
     }
 
+    /* eslint-disable no-unused-vars */
     const { userId, __v, ...data } = task.toJSON();
 
     // Renew session token
@@ -118,6 +119,7 @@ const createTask = async (req, res) => {
 
     await task.save();
 
+    /* eslint-disable no-unused-vars */
     const { __v, userId, ...taskData } = task.toJSON();
 
     // Renew session token

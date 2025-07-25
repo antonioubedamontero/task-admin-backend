@@ -11,8 +11,6 @@ const {
 const { getDecodedToken } = require("../helpers/json-webtokens");
 
 const validateToken = async (req, res) => {
-  const i18n = req.t;
-
   const { token } = req.body;
   const decodedToken = getDecodedToken(token);
 

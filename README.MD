@@ -8,77 +8,96 @@ During initial backend development, the usual `feature/` branch convention was n
 
 Once stabilized, it is recommended to implement a more formal branch structure (such as `feature/`, `bugfix/`, `hotfix/`, etc.) to facilitate collaboration and maintenance.
 
-## Pre requisites
-
-copy .env-template to .env and fill user and password database.
-
-## Install dependencies
-
-```bash
-npm install
-```
-
-## Available scripts
-
-- linting:
+## Linting code
 
 ```bash
 npm run lint
 ```
 
-- development:
+## Available endpoints:
+
+See postman folder with examples
+
+## 1. Development environment:
+
+### Build and up application and db:
 
 ```bash
-npm run start:dev
-```
-
-- production:
-
-```bash
-npm run start
-```
-
-## Build and up application and db:
-
-```bash
-docker compose up --build -d
+docker compose -f docker-compose.dev.yml up --build -d
 ```
 
 - App is avaiable in http://localhost:3000.
 - Mongodb database is available in http://localhost:27017
 
-## Stop backend and db services (and delete containers):
+### Stop backend and db services (and delete containers):
 
 ```bash
-docker compose down
+docker compose -f docker-compose.dev.yml down
 ```
 
-## Start and stop without recreate containers:
+### Start and stop without recreate containers:
 
 Starts containers:
 
 ```bash
-docker compose start
+docker compose -f docker-compose.dev.yml start
 ```
 
 Stop containers but not delete them:
 
 ```bash
-docker compose stop
+docker compose -f docker-compose.dev.yml stop
 ```
 
-## To view containers running:
+## 2.Production environment:
+
+### Build and up application and db:
+
+```bash
+docker compose -f docker-compose.prod.yml up --build -d
+```
+
+- App is avaiable in http://localhost:3000.
+- Mongodb database is available in http://localhost:27017
+
+### Stop backend and db services (and delete containers):
+
+```bash
+docker compose -f docker-compose.prod.yml down
+```
+
+### Start and stop without recreate containers:
+
+Starts containers:
+
+```bash
+docker compose -f docker-compose.prod.yml start
+```
+
+Stop containers but not delete them:
+
+```bash
+docker compose -f docker-compose.prod.yml stop
+```
+
+## Analizing containers:
+
+1. View containers running:
 
 ```bash
 docker compose ps
 ```
 
-## To view backend logs:
+2. View backend logs:
+
+- In production:
 
 ```bash
 docker compose logs -f task-admin-backend
 ```
 
-## Available endpoints:
+- In development:
 
-See postman folder with examples
+```bash
+docker compose logs -f task-admin-backend-dev
+```

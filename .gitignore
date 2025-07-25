@@ -1,3 +1,4 @@
 # .gitignore
 node_modules/
-.env
+# This is comments for demo purpose only. In real projects shouldn't be deployed
+#.env

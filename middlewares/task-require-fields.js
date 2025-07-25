@@ -1,7 +1,7 @@
 const { isValidTaskState } = require("../helpers/valid-states");
 const { isValidObjectId } = require("../helpers/object-id");
+const verifyDates = require("../helpers/verify-dates");
 
-const { Task } = require("../db/schemas/task-schema");
 const TaskState = require("../types/states.enum");
 
 const createTaskRequiredFields = (req, res, next) => {
@@ -50,6 +50,8 @@ const validateNameDescription = (req, res) => {
   return new Promise((resolve, reject) => {
     const { name, description } = req.body;
 
+    const i18n = req.t;
+
     if (name && name.length === 0) {
       return reject(
         res.status(400).json({
@@ -71,7 +73,7 @@ const validateNameDescription = (req, res) => {
 };
 
 const validateCommonPatchFields = (req, res) => {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     const { taskId, currentState, justification } = req.body;
 
     const i18n = req.t;
@@ -101,57 +103,6 @@ const validateCommonPatchFields = (req, res) => {
     }
 
     resolve("ok");
-  });
-};
-
-const verifyDates = (req, res) => {
-  // Validations for started task state
-  const i18n = req.t;
-
-  return new Promise(async (resolve, reject) => {
-    try {
-      let { taskId, startDate, dueDate } = req.body;
-
-      const task = await Task.findById(taskId);
-
-      if (!task) {
-        return reject(
-          res
-            .status(404)
-            .json({ message: i18n("notFoundErrors.taskNotFound", { taskId }) })
-        );
-      }
-
-      const { startDate: prevStartDate, dueDate: prevDueDate } = task.toJSON;
-      const isPreviousDateSaved = prevStartDate && prevDueDate;
-
-      if (!isPreviousDateSaved && (!startDate || !dueDate)) {
-        return reject(
-          res.status(400).json({
-            message: i18n("requiredFieldsErrors.datesModificationRequired"),
-          })
-        );
-      }
-
-      const startDateAsDate = new Date(startDate);
-      const dueDateAsDate = new Date(dueDate);
-
-      if (startDateAsDate > dueDateAsDate) {
-        return reject(
-          res.status(400).json({
-            message: i18n("requiredFieldsErrors.startDateGreaterThanEndDate"),
-          })
-        );
-      }
-
-      resolve("ok");
-    } catch (error) {
-      reject(
-        res
-          .status(500)
-          .json({ message: i18n("catchedErrors.internalServerError") })
-      );
-    }
   });
 };
 

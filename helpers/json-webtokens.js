@@ -14,6 +14,7 @@ const getDecodedToken = (token) => {
   try {
     return jwt.verify(token, process.env.JWT_SECRET);
   } catch (error) {
+    console.error("Error decoding token:", error);
     return null;
   }
 };

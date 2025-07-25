@@ -1,0 +1,26 @@
+services:
+  task-admin-backend-dev:
+    build: .
+    container_name: task-admin-backend-dev
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+    volumes:
+      - .:/usr/src/app
+      # not overriding node_modules to avoid conflicts
+      - /usr/src/app/node_modules
+    environment:
+      - .env.dev
+    depends_on:
+      - mongo-dev
+
+  mongo-dev:
+    image: mongo:6
+    container_name: task-admin-mongo-dev
+    ports:
+      - "${MONGO_PORT}:${MONGO_PORT}"
+    volumes:
+      - mongo-data-dev:/data/db-dev
+
+volumes:
+  mongo-data-dev:
+    driver: local
